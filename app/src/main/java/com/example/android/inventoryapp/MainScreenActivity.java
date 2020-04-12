@@ -33,7 +33,7 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +42,12 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
                 startActivity(intent);
             }
         });
+        setTitle(R.string.main_screen_title);
 
-        ListView productListView = (ListView) findViewById(R.id.list_view);
+        ListView productListView = findViewById(R.id.list_view);
+
+        View emptyView = findViewById(R.id.empty_view);
+        productListView.setEmptyView(emptyView);
 
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
@@ -71,7 +75,7 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete_all_products:
                 showDeleteConfirmationDialog();
@@ -83,9 +87,9 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
     public void deleteAllProducts() {
         int noOfRowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
         if (noOfRowsDeleted == 0) {
-            Toast.makeText(this, "Couldn't delete!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.delete_all_failed, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Successfully Deleted All Products", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.delete_all_success, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -119,19 +123,19 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
 
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete all products?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_all_message);
+        builder.setPositiveButton(R.string.delete_all_positive, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteAllProducts();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.delete_all_negative, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(dialogInterface!=null){
+                if (dialogInterface != null) {
                     dialogInterface.dismiss();
                 }
             }

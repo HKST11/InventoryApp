@@ -5,14 +5,13 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class ProductCursorAdapter extends CursorAdapter {
-    public ProductCursorAdapter(Context context, Cursor c) {
+    ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -23,9 +22,9 @@ public class ProductCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, final Cursor cursor) {
-        TextView nameDisplay = (TextView) view.findViewById(R.id.name_display_view);
-        TextView quantityDisplay = (TextView) view.findViewById(R.id.quantity_display_view);
-        TextView priceDisplay = (TextView) view.findViewById(R.id.price_display_view);
+        TextView nameDisplay = view.findViewById(R.id.name_display_view);
+        TextView quantityDisplay = view.findViewById(R.id.quantity_display_view);
+        TextView priceDisplay = view.findViewById(R.id.price_display_view);
 
         int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
         int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
@@ -38,8 +37,10 @@ public class ProductCursorAdapter extends CursorAdapter {
         String priceString = String.valueOf(price);
 
         nameDisplay.setText(name);
-        quantityDisplay.setText(quantityString);
-        priceDisplay.setText(priceString);
+        String displayQuantity = quantityString + " in stock";
+        quantityDisplay.setText(displayQuantity);
+        String displayPrice = "Rs. " + priceString;
+        priceDisplay.setText(displayPrice);
 
     }
 }

@@ -7,8 +7,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.android.inventoryapp.R;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class ProductProvider extends ContentProvider {
@@ -30,7 +32,7 @@ public class ProductProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortBy) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortBy) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Cursor cursor;
         int match = sUriMatcher.match(uri);
@@ -44,14 +46,16 @@ public class ProductProvider extends ContentProvider {
                 cursor = db.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortBy);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if (getContext() != null) {
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
         return cursor;
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
@@ -59,12 +63,12 @@ public class ProductProvider extends ContentProvider {
             case PRODUCTS_ID_URI_CODE:
                 return ProductEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalArgumentException("Unknown URI" + uri);
+                throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
@@ -73,25 +77,28 @@ public class ProductProvider extends ContentProvider {
         if (price == null) {
             throw new IllegalArgumentException("Product requires a price");
         }
+        Integer quantity = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+        if (quantity == 0) {
+            throw new IllegalArgumentException("Product requires a valid quantity");
+        }
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        long returnedId;
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                returnedId = db.insert(ProductEntry.TABLE_NAME, null, contentValues);
+                db.insert(ProductEntry.TABLE_NAME, null, contentValues);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
-        getContext().getContentResolver().notifyChange(uri, null);
-        if (returnedId == -1) return null;
-        Uri returnedUri = Uri.withAppendedPath(uri, String.valueOf(returnedId));
-        return returnedUri;
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return null;
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int noOfRowsDeleted;
         int match = sUriMatcher.match(uri);
@@ -105,14 +112,16 @@ public class ProductProvider extends ContentProvider {
                 noOfRowsDeleted = db.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
         return noOfRowsDeleted;
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
         if (contentValues.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
@@ -123,6 +132,12 @@ public class ProductProvider extends ContentProvider {
             Integer price = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
             if (price == null) {
                 throw new IllegalArgumentException("Product requires a price");
+            }
+        }
+        if (contentValues.containsKey(ProductEntry.COLUMN_PRODUCT_QUANTITY)) {
+            Integer quantity = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+            if (quantity == 0) {
+                throw new IllegalArgumentException("Product requires a valid quantity");
             }
         }
         if (contentValues.size() == 0) {
@@ -142,9 +157,11 @@ public class ProductProvider extends ContentProvider {
                 noOfRowsUpdated = db.update(ProductEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
         return noOfRowsUpdated;
     }
 }

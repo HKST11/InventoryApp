@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">InventoryApp</string>
+    <string name="product_name_label">Product Name</string>
+    <string name="product_name_hint">Laptop</string>
+    <string name="quantity_label">Quantity:</string>
+    <string name="minus_label">-</string>
+    <string name="quantity">0</string>
+    <string name="plus_label">+</string>
+    <string name="price_label">Price (in Rupees)</string>
+    <string name="price_hint">40000</string>
+    <string name="supplier_label">Supplier</string>
+    <string name="supplier_hint">Asus</string>
+    <string name="order_label">order</string>
+    <string name="no_product_title">No product in the inventory right now</string>
+    <string name="no_product_subtitle">Tap on the plus button to add product</string>
+    <string name="main_screen_title">Products</string>
+    <string name="delete_all_menu_title">Delete all products</string>
+    <string name="delete_all_failed">Failed to Delete All Products</string>
+    <string name="delete_all_success">Successfully Deleted All Products</string>
+    <string name="delete_all_message">Delete all products?</string>
+    <string name="delete_all_positive">Delete</string>
+    <string name="delete_all_negative">Cancel</string>
+    <string name="add_screen_title">Add a Product</string>
+    <string name="edit_screen_title">Edit Product</string>
+    <string name="empty_product_name">Please enter product name</string>
+    <string name="invalid_quantity">Please enter valid quantity</string>
+    <string name="empty_supplier">Please enter the supplier</string>
+    <string name="quantity_less_than_zero">Quantity cannot be less than zero</string>
+    <string name="add_product_failed">Failed to add product</string>
+    <string name="add_product_success">Successfully added new product</string>
+    <string name="edit_product_failed">Failed to make the changes</string>
+    <string name="edit_product_success">Successfully made the changes</string>
+    <string name="invalid_format_message">Enter Numbers in Quantity and Price Field</string>
+    <string name="delete_failed">Error in deleting Product</string>
+    <string name="delete_success">Product Deleted</string>
+    <string name="save_menu_title">Save</string>
+    <string name="unsaved_changes_message">Discard your changes and quit editing?</string>
+    <string name="unsaved_changes_positive">Discard</string>
+    <string name="unsaved_changes_negative">Keep Editing</string>
+    <string name="delete_menu_title">Delete</string>
+    <string name="delete_message">Delete this product?</string>
+    <string name="delete_positive">Delete</string>
+    <string name="delete_negative">Cancel</string>
+    <string name="unknown_uri">Unknown URI: </string>
+
+
 </resources>

@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
         tools:context=".ItemDetailActivity">
@@ -21,20 +21,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Product Name"
+                android:text="@string/product_name_label"
                 android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/product_name_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Quantity:"
+            android:text="@string/quantity_label"
             android:textColor="#000000" />
 
         <LinearLayout
@@ -48,20 +49,23 @@
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
-                android:text="-" />
+                android:layout_marginEnd="16dp"
+                android:text="@string/minus_label" />
 
             <EditText
                 android:id="@+id/product_quantity_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:inputType="number"
+                android:text="@string/quantity" />
 
             <Button
                 android:id="@+id/increase_quantity_button"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="+" />
+                android:layout_marginStart="16dp"
+                android:text="@string/plus_label" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,13 +77,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price"
+                android:text="@string/price_label"
                 android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/product_price_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,13 +96,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supplier"
+                android:text="@string/supplier_label"
                 android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/product_supplier_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
         </LinearLayout>
 
         <ImageView
@@ -110,7 +116,7 @@
             android:id="@+id/order_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="order"
+            android:text="@string/order_label"
             android:textColor="#000000" />
 
     </LinearLayout>
