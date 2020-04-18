@@ -24,34 +24,23 @@ import android.widget.Toast;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 public class MainScreenActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     ProductCursorAdapter mCursorAdapter;
     private static final int PRODUCT_LIST_LOADER = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        FloatingActionButton fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainScreenActivity.this, ItemDetailActivity.class);
-                startActivity(intent);
-            }
-        });
         setTitle(R.string.main_screen_title);
 
         ListView productListView = findViewById(R.id.list_view);
-
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
 
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
-
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -62,36 +51,16 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainScreenActivity.this, ItemDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
         getSupportLoaderManager().initLoader(PRODUCT_LIST_LOADER, null, this);
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_screen, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete_all_products:
-                showDeleteConfirmationDialog();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void deleteAllProducts() {
-        int noOfRowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
-        if (noOfRowsDeleted == 0) {
-            Toast.makeText(this, R.string.delete_all_failed, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.delete_all_success, Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     @NonNull
@@ -99,9 +68,10 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         String[] projection = {ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_MODEL_NO,
                 ProductEntry.COLUMN_PRODUCT_PRICE,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER};
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_IMAGE};
 
         return new CursorLoader(this,
                 ProductEntry.CONTENT_URI,
@@ -121,6 +91,22 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_screen, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete_all_products:
+                showDeleteConfirmationDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showDeleteConfirmationDialog() {
@@ -143,5 +129,15 @@ public class MainScreenActivity extends AppCompatActivity implements LoaderManag
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void deleteAllProducts() {
+        int noOfRowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
+        if (noOfRowsDeleted == 0) {
+            Toast.makeText(this, R.string.delete_all_failed, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.delete_all_success, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

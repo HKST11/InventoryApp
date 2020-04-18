@@ -70,23 +70,19 @@ public class ProductProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
+        if ((name == null) || (name.length() == 0)) {
             throw new IllegalArgumentException("Product requires a name");
         }
         Integer price = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price == null) {
             throw new IllegalArgumentException("Product requires a price");
         }
-        Integer quantity = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-        if (quantity == 0) {
-            throw new IllegalArgumentException("Product requires a valid quantity");
-        }
-
+        long returnedId;
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                db.insert(ProductEntry.TABLE_NAME, null, contentValues);
+                returnedId = db.insert(ProductEntry.TABLE_NAME, null, contentValues);
                 break;
             default:
                 throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
@@ -94,7 +90,9 @@ public class ProductProvider extends ContentProvider {
         if (getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        return null;
+        if (returnedId == -1) return null;
+
+        return (ContentUris.withAppendedId(uri, returnedId));
     }
 
     @Override
@@ -122,9 +120,13 @@ public class ProductProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        if (contentValues.size() == 0) {
+            return 0;
+        }
+
         if (contentValues.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-            if (name == null) {
+            if ((name == null) || (name.length() == 0)) {
                 throw new IllegalArgumentException("Product requires a name");
             }
         }
@@ -133,15 +135,6 @@ public class ProductProvider extends ContentProvider {
             if (price == null) {
                 throw new IllegalArgumentException("Product requires a price");
             }
-        }
-        if (contentValues.containsKey(ProductEntry.COLUMN_PRODUCT_QUANTITY)) {
-            Integer quantity = contentValues.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-            if (quantity == 0) {
-                throw new IllegalArgumentException("Product requires a valid quantity");
-            }
-        }
-        if (contentValues.size() == 0) {
-            return 0;
         }
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();

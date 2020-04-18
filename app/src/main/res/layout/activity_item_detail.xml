@@ -1,123 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/mainScreenBackgroundColor">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".ItemDetailActivity">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="4dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/product_name_label"
-                android:textColor="#000000" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/product_name_view"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_details_label"
+                    android:textColor="@color/colorPrimary" />
+
+                <Button
+                    android:id="@+id/increase_quantity_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/plus_label" />
+
+                <EditText
+                    android:id="@+id/product_quantity_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="@string/quantity_hint"
+                    android:inputType="number"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/decrease_quantity_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/minus_label" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/product_name_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_name_hint"
+                    android:inputType="textCapWords" />
+
+                <EditText
+                    android:id="@+id/product_model_no_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_model_no_hint"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/product_price_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/price_hint"
+                    android:inputType="number" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/quantity_label"
-            android:textColor="#000000" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/decrease_quantity_button"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/minus_label" />
-
-            <EditText
-                android:id="@+id/product_quantity_view"
+            <ImageView
+                android:id="@+id/product_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="@string/quantity" />
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/image_content_description"
+                android:maxWidth="200dp"
+                android:maxHeight="200dp"
+                android:scaleType="centerInside" />
 
             <Button
-                android:id="@+id/increase_quantity_button"
-                android:layout_width="48dp"
+                android:id="@+id/image_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="@string/plus_label" />
+                android:layout_gravity="center_vertical"
+                android:text="@string/add_image_label" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/price_label"
-                android:textColor="#000000" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/supplier_details_label"
+                android:textColor="@color/colorPrimary" />
 
-            <EditText
-                android:id="@+id/product_price_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/supplier_name_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/supplier_name_hint"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/supplier_email_id_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/supplier_email_id_hint"
+                    android:inputType="textEmailAddress" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/supplier_label"
-                android:textColor="#000000" />
-
-            <EditText
-                android:id="@+id/product_supplier_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:src="@mipmap/temp_photo" />
 
         <Button
             android:id="@+id/order_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/order_label"
-            android:textColor="#000000" />
-
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="@string/order_label" />
     </LinearLayout>
 </ScrollView>

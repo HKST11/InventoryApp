@@ -1,17 +1,19 @@
 <resources>
     <string name="app_name">InventoryApp</string>
-    <string name="product_name_label">Product Name</string>
-    <string name="product_name_hint">Laptop</string>
-    <string name="quantity_label">Quantity:</string>
+    <string name="product_details_label">Product Details:</string>
+    <string name="product_name_hint">Name</string>
+    <string name="product_model_no_hint">Model No.</string>
     <string name="minus_label">-</string>
     <string name="quantity">0</string>
     <string name="plus_label">+</string>
-    <string name="price_label">Price (in Rupees)</string>
-    <string name="price_hint">40000</string>
-    <string name="supplier_label">Supplier</string>
-    <string name="supplier_hint">Asus</string>
+    <string name="price_hint">Price(in Rs.)</string>
+    <string name="quantity_hint">(stock qty)</string>
+    <string name="supplier_details_label">Supplier Details:</string>
+    <string name="supplier_name_hint">Supplier Name</string>
+    <string name="supplier_email_id_hint">Email (raj@gmail.com)</string>
     <string name="order_label">order</string>
-    <string name="no_product_title">No product in the inventory right now</string>
+    <string name="sale_label">sell</string>
+    <string name="no_product_title">Nothing here!</string>
     <string name="no_product_subtitle">Tap on the plus button to add product</string>
     <string name="main_screen_title">Products</string>
     <string name="delete_all_menu_title">Delete all products</string>
@@ -23,8 +25,10 @@
     <string name="add_screen_title">Add a Product</string>
     <string name="edit_screen_title">Edit Product</string>
     <string name="empty_product_name">Please enter product name</string>
+    <string name="empty_product_model_no">Please enter model no</string>
     <string name="invalid_quantity">Please enter valid quantity</string>
-    <string name="empty_supplier">Please enter the supplier</string>
+    <string name="empty_supplier_name">Please enter the supplier name</string>
+    <string name="empty_supplier_email_id">Email of supplier is required</string>
     <string name="quantity_less_than_zero">Quantity cannot be less than zero</string>
     <string name="add_product_failed">Failed to add product</string>
     <string name="add_product_success">Successfully added new product</string>
@@ -42,6 +46,11 @@
     <string name="delete_positive">Delete</string>
     <string name="delete_negative">Cancel</string>
     <string name="unknown_uri">Unknown URI: </string>
-
+    <string name="intent_type">image/*</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="add_image_label">Add Image</string>
+    <string name="image_content_description">Product Image</string>
+    <string name="empty_image_content_description">Empty Inventory Image</string>
+    <string name="no_change_msg">No change to be saved</string>
 
 </resources>
