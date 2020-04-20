@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/mainScreenBackgroundColor">
 
     <LinearLayout
@@ -16,43 +17,11 @@
             android:orientation="horizontal"
             android:padding="4dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/product_details_label"
-                    android:textColor="@color/colorPrimary" />
-
-                <Button
-                    android:id="@+id/increase_quantity_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/plus_label" />
-
-                <EditText
-                    android:id="@+id/product_quantity_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="@string/quantity_hint"
-                    android:inputType="number"
-                    android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/decrease_quantity_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/minus_label" />
-
-            </LinearLayout>
+                android:text="@string/product_details_label"
+                android:textColor="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/product_model_no_hint"
-                    android:inputType="text" />
+                    android:inputType="textCapWords" />
 
                 <EditText
                     android:id="@+id/product_price_view"
@@ -81,6 +50,56 @@
                     android:inputType="number" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/quantity_label"
+            android:textColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/decrease_quantity_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/minus_label"
+                android:textStyle="bold"
+                app:backgroundTint="#C8E6C9" />
+
+            <EditText
+                android:id="@+id/product_quantity_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/quantity_hint"
+                android:inputType="number"
+                android:padding="8dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/increase_quantity_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/plus_label"
+                android:textStyle="bold"
+                app:backgroundTint="#C8E6C9" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/image_label"
+            android:textColor="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -104,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                app:backgroundTint="#FFECB3"
                 android:text="@string/add_image_label" />
         </LinearLayout>
 
@@ -132,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/supplier_name_hint"
-                    android:inputType="textPersonName" />
+                    android:inputType="textCapWords" />
 
                 <EditText
                     android:id="@+id/supplier_email_id_view"
@@ -149,6 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
+            app:backgroundTint="#FFF176"
             android:text="@string/order_label" />
     </LinearLayout>
 </ScrollView>

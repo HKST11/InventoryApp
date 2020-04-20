@@ -93,6 +93,7 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
         Uri receivedUri = intent.getData();
         if (receivedUri == null) {
             setTitle(R.string.add_screen_title);
+            mProductQuantity.setText(R.string.quantity_text);
             invalidateOptionsMenu();
         } else {
             setTitle(R.string.edit_screen_title);
@@ -435,29 +436,31 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
         } else {
             values.putNull(ProductEntry.COLUMN_PRODUCT_NAME);
         }
-        if (!TextUtils.isEmpty(productModelNo)) {
-            values.put(ProductEntry.COLUMN_PRODUCT_MODEL_NO, productModelNo);
-        }
-        if (!TextUtils.isEmpty(productPriceString)) {
+        values.put(ProductEntry.COLUMN_PRODUCT_MODEL_NO, productModelNo);
+        if (productPriceString.length() > 9) {
+            Toast.makeText(this, R.string.price_too_large_msg, Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!TextUtils.isEmpty(productPriceString)) {
             int productPrice = Integer.parseInt(productPriceString);
             values.put(ProductEntry.COLUMN_PRODUCT_PRICE, productPrice);
         } else {
             values.putNull(ProductEntry.COLUMN_PRODUCT_PRICE);
         }
-        if (!TextUtils.isEmpty(productQuantityString)) {
+        if (productQuantityString.length() > 9) {
+            Toast.makeText(this, R.string.quantity_too_large_msg, Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!TextUtils.isEmpty(productQuantityString)) {
             int productQuantity = Integer.parseInt(productQuantityString);
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
+        } else {
+            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, 0);
         }
         if (ProductEntry.savedUri != null) {
             String productImageUriString = ProductEntry.savedUri.toString();
             values.put(ProductEntry.COLUMN_PRODUCT_IMAGE, productImageUriString);
         }
-        if (!TextUtils.isEmpty(supplierName)) {
-            values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierName);
-        }
-        if (!TextUtils.isEmpty(supplierEmailId)) {
-            values.put(ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailId);
-        }
+        values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierName);
+        values.put(ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailId);
 
         try {
             if (mCurrentProductUri == null) {

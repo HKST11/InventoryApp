@@ -7,10 +7,13 @@
     <string name="quantity">0</string>
     <string name="plus_label">+</string>
     <string name="price_hint">Price(in Rs.)</string>
-    <string name="quantity_hint">(stock qty)</string>
+    <string name="quantity_label">Quantity:</string>
+    <string name="quantity_hint">250</string>
+    <string name="quantity_text">0</string>
+    <string name="image_label">Product Image:</string>
     <string name="supplier_details_label">Supplier Details:</string>
-    <string name="supplier_name_hint">Supplier Name</string>
-    <string name="supplier_email_id_hint">Email (raj@gmail.com)</string>
+    <string name="supplier_name_hint">Name</string>
+    <string name="supplier_email_id_hint">Email</string>
     <string name="order_label">order</string>
     <string name="sale_label">sell</string>
     <string name="no_product_title">Nothing here!</string>
@@ -52,5 +55,11 @@
     <string name="image_content_description">Product Image</string>
     <string name="empty_image_content_description">Empty Inventory Image</string>
     <string name="no_change_msg">No change to be saved</string>
+    <string name="out_of_stock_msg">Product out of stock</string>
+    <string name="sale_failed">Could not sell</string>
+    <string name="rupees_sign">\u20B9</string>
+    <string name="sale_button_content_description">Sell Button</string>
+    <string name="price_too_large_msg">Price too large</string>
+    <string name="quantity_too_large_msg">Quantity too large</string>
 
 </resources>
