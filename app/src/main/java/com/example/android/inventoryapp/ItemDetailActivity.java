@@ -34,8 +34,8 @@ import android.widget.Toast;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class ItemDetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int PRODUCT_LOADER = 0;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final int PRODUCT_LOADER = 0;    //Constant for the loader
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;  //Unique constant for reading external storage permission
     private static final int REQUEST_CODE = 0;
 
     private Uri mCurrentProductUri;
@@ -49,6 +49,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     private EditText mSupplierEmailId;
     private EditText mProductQuantity;
 
+    /*
+    Sets the variable true if any view was touched
+     */
     private boolean mProductHasChanged = false;
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -61,8 +64,11 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
+        setContentView(R.layout.activity_item_detail);  //Displays the layout defined by the xml file
 
+        /*
+        Identify different views on the ItemDetail Screen
+         */
         mProductName = findViewById(R.id.product_name_view);
         mProductModelNo = findViewById(R.id.product_model_no_view);
         mProductPrice = findViewById(R.id.product_price_view);
@@ -77,6 +83,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
         Button orderButton = findViewById(R.id.order_button);
         Button imageButton = findViewById(R.id.image_button);
 
+        /*
+        Setup TouchListener on various view to identity any touch on them
+         */
         mProductName.setOnTouchListener(mTouchListener);
         mProductModelNo.setOnTouchListener(mTouchListener);
         mProductPrice.setOnTouchListener(mTouchListener);
@@ -84,23 +93,39 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
         mSupplierName.setOnTouchListener(mTouchListener);
         mSupplierEmailId.setOnTouchListener(mTouchListener);
 
+        /*
+        Sets the empty image on the image view
+         */
         if (ProductEntry.savedUri != null) mProductImage.setImageURI(ProductEntry.savedUri);
         else {
             mProductImage.setImageResource(R.mipmap.no_image_available);
         }
 
+        /*
+        Identifies the intent to know the appropriate mode- Add a Product or Edit Product
+         */
         Intent intent = getIntent();
         Uri receivedUri = intent.getData();
+        /*
+        Tasks performed if in Add a Product Mode
+         */
         if (receivedUri == null) {
             setTitle(R.string.add_screen_title);
             mProductQuantity.setText(R.string.quantity_text);
             invalidateOptionsMenu();
-        } else {
+        }
+        /*
+        Tasks performed in case of Edit Product Mode
+         */
+        else {
             setTitle(R.string.edit_screen_title);
             mCurrentProductUri = receivedUri;
-            getSupportLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+            getSupportLoaderManager().initLoader(PRODUCT_LOADER, null, this);   //Starts the loader
         }
 
+        /*
+        Setup the plus button to call increaseQuantity()
+         */
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +134,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        /*
+        Setup the minus button to call decreaseQuantity()
+         */
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +145,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        /*
+        Setup the add image button to call tryOpeningGallery()
+         */
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +156,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        /*
+        Setup the order button to call orderProduct()
+         */
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +171,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        /*
+        Make a query to the database to get the cursor with columns as defined int the projection
+         */
         String[] projection = {ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
                 ProductEntry.COLUMN_PRODUCT_MODEL_NO,
@@ -156,6 +193,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        /*
+        Sets the values in different fields with appropriate data received through the cursor
+         */
         if (data.moveToFirst()) {
             int productNameColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
             int productModelNoColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_PRODUCT_MODEL_NO);
@@ -189,13 +229,16 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
             mSupplierName.setText(supplierName);
             mSupplierEmailId.setText(supplierEmail);
 
-            getSupportLoaderManager().destroyLoader(PRODUCT_LOADER);
+            getSupportLoaderManager().destroyLoader(PRODUCT_LOADER);    //destroys the loader preventing the screen to reload
         }
 
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        /*
+        Clears all the fields if the cursor changes
+         */
         mProductName.getText().clear();
         mProductModelNo.getText().clear();
         mProductPrice.getText().clear();
@@ -207,6 +250,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void increaseQuantity() {
+        /*
+        Increases quantity in the quantity field
+         */
         String quantityString = mProductQuantity.getText().toString().trim();
         if (TextUtils.isEmpty(quantityString)) mProductQuantity.setText(R.string.quantity);
         else {
@@ -217,8 +263,11 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void decreaseQuantity() {
+        /*
+        Decreases quantity in the quantity field
+         */
         String quantityString = mProductQuantity.getText().toString().trim();
-        if (TextUtils.isEmpty(quantityString)) mProductQuantity.setText(R.string.quantity);
+        if (TextUtils.isEmpty(quantityString)) mProductQuantity.setText(R.string.quantity); //
         else {
             mQuantity = Integer.parseInt(quantityString);
             if (mQuantity == 0) {
@@ -231,17 +280,27 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void tryOpeningGallery() {
+        /*
+        Requests for reading external storage permission if not lready granted
+         */
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
+        }
+        /*
+        Opens the list of photos on user's device if permission granted
+         */
+        else {
             openGallery();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        /*
+        Checks if the permission was granted after the request was made
+         */
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -251,6 +310,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void openGallery() {
+        /*
+        Opens the Images gallery on user's device
+         */
         Intent galleryIntent;
         if (Build.VERSION.SDK_INT < 19) {
             galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -265,6 +327,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        /*
+        Sets the chosen image by the user on the image view
+         */
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (intent != null) {
                 Uri mImageUri = intent.getData();
@@ -276,24 +341,33 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_item_detail_screen, menu);
+        getMenuInflater().inflate(R.menu.menu_item_detail_screen, menu);    //Creates menu options on item detail screen
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+        //Gets the selected menu item id
         switch (menuItem.getItemId()) {
             case R.id.action_save_product:
-                saveProduct();
+                saveProduct();  //calls the saveProduct() function if save option is selected
                 return true;
             case R.id.action_delete_product:
-                showDeleteConfirmationDialog();
+                showDeleteConfirmationDialog(); //calls the showDeleteConfirmationDialog() function if delete option is selected
                 return true;
             case android.R.id.home:
+                //Gets executed if home button is pressed on the device
+
+                /*
+                Navigates back to the previous screen if user didn't touch anything
+                 */
                 if (!mProductHasChanged) {
                     NavUtils.navigateUpFromSameTask(ItemDetailActivity.this);
                     return true;
                 }
+                /*
+                Calls showUnsavedChangesDialog() if any view was touched by the user
+                 */
                 DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -306,6 +380,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void showDeleteConfirmationDialog() {
+        /*
+        Sets up the Dialog box for delete confirmation
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_message);
         builder.setPositiveButton(R.string.delete_positive, new DialogInterface.OnClickListener() {
@@ -328,8 +405,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void deleteProduct() {
+
         if (mCurrentProductUri != null) {
-            int noOfRowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
+            int noOfRowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);  //Requests the content provider to delete this product
             if (noOfRowsDeleted == 0) {
                 Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show();
             } else {
@@ -342,6 +420,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onBackPressed() {
+        /*
+        Calls showUnsavedChangesDialog() if back button is pressed and mProductHasChanged is true
+         */
         if (!mProductHasChanged) {
             super.onBackPressed();
             return;
@@ -360,6 +441,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        /*
+        Sets Delete option invisible if in  Add Product mode
+         */
         super.onPrepareOptionsMenu(menu);
         if (mCurrentProductUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete_product);
@@ -369,6 +453,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+        /*
+        Sets up the Dialog box for save changes confirmation
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_message);
         builder.setPositiveButton(R.string.unsaved_changes_positive, discardButtonClickListener);
@@ -387,18 +474,28 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
     private void orderProduct() {
 
+        /*
+        Identify the different views
+         */
         String productName = mProductName.getText().toString().trim();
         String productModelNo = mProductModelNo.getText().toString().trim();
         String supplierName = mSupplierName.getText().toString().trim();
         String supplierEmailId = mSupplierEmailId.getText().toString().trim();
 
+        /*
+        Checks if any compulsory field is empty
+         */
         if (TextUtils.isEmpty(productName)) {
             Toast.makeText(this, R.string.empty_product_name, Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(supplierName)) {
             Toast.makeText(this, R.string.empty_supplier_name, Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(supplierEmailId)) {
             Toast.makeText(this, R.string.empty_supplier_email_id, Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        /*
+        Sends an intent to open an email app and auto fills the infomation
+         */
+        else {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:" + supplierEmailId));
             String mailSubject = "Order Request: " + productName + " " + productModelNo;
@@ -417,11 +514,17 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void saveProduct() {
+        /*
+        Does nothing if mProductHasChanged is false
+         */
         if (!mProductHasChanged) {
             Toast.makeText(this, R.string.no_change_msg, Toast.LENGTH_SHORT).show();
             return;
         }
 
+        /*
+        Identify the different views
+         */
         String productName = mProductName.getText().toString().trim();
         String productModelNo = mProductModelNo.getText().toString().trim();
         String productPriceString = mProductPrice.getText().toString().trim();
@@ -431,6 +534,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
 
         ContentValues values = new ContentValues();
 
+        /*
+        Checks which of the fields are empty
+         */
         if (!TextUtils.isEmpty(productName)) {
             values.put(ProductEntry.COLUMN_PRODUCT_NAME, productName);
         } else {
@@ -463,6 +569,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
         values.put(ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailId);
 
         try {
+            /*
+            Requests the Content Provider to do insertion operation when in Add Product mode
+             */
             if (mCurrentProductUri == null) {
                 Uri returnedUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
                 if (returnedUri == null) {
@@ -470,7 +579,11 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
                 } else {
                     Toast.makeText(this, R.string.add_product_success, Toast.LENGTH_SHORT).show();
                 }
-            } else {
+            }
+            /*
+            Requests the Content Provider to do update operation when in Edit Product mode
+             */
+            else {
                 int noOfRowsUpdated = getContentResolver().update(mCurrentProductUri, values, null, null);
                 if (noOfRowsUpdated == 0) {
                     Toast.makeText(this, R.string.edit_product_failed, Toast.LENGTH_SHORT).show();
@@ -479,9 +592,9 @@ public class ItemDetailActivity extends AppCompatActivity implements LoaderManag
                 }
             }
             ProductEntry.savedUri = null;
-            finish();
+            finish();   //destroys this activity
         } catch (IllegalArgumentException i) {
-            Toast.makeText(this, i.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, i.getMessage(), Toast.LENGTH_SHORT).show();    //displays error message if the operation fails
         }
     }
 }

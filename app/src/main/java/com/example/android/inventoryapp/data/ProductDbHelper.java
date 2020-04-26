@@ -16,6 +16,9 @@ public class ProductDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        /*
+        Creates the table in the database
+         */
         String query = "CREATE TABLE " + ProductEntry.TABLE_NAME + "(" +
                 ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ProductEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL," +

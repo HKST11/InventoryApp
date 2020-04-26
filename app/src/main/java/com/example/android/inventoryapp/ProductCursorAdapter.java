@@ -24,18 +24,23 @@ public class ProductCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);
+        return LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);  //Inflates list item
     }
 
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
-        final int productIdColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
+        /*
+        Get the indices of the required columns
+         */
         int productNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
         int modelNoColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_MODEL_NO);
         int productPriceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
         int productQuantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
         int productImageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_IMAGE);
 
+        /*
+        Identify the different views in each list item
+         */
         ImageView imageDisplay = view.findViewById(R.id.image_display_view);
         TextView nameDisplay = view.findViewById(R.id.name_display_view);
         TextView modelNoDisplay = view.findViewById(R.id.model_no_display_view);
@@ -43,6 +48,9 @@ public class ProductCursorAdapter extends CursorAdapter {
         TextView quantityDisplay = view.findViewById(R.id.quantity_display_view);
         final ImageButton saleButton = view.findViewById(R.id.sale_button);
 
+        /*
+        Get the values at different indices of database through the received cursor
+         */
         String imageUriString = cursor.getString(productImageColumnIndex);
         String name = cursor.getString(productNameColumnIndex);
         String modelNo = cursor.getString(modelNoColumnIndex);
@@ -51,6 +59,9 @@ public class ProductCursorAdapter extends CursorAdapter {
         int price = cursor.getInt(productPriceColumnIndex);
         String priceString = String.valueOf(price);
 
+        /*
+        Displays the appropriate information in the different views
+         */
         if ((imageUriString != null) && (imageUriString.length() != 0)) {
             Uri imageUri = Uri.parse(imageUriString);
             imageDisplay.setImageURI(imageUri);
@@ -65,7 +76,10 @@ public class ProductCursorAdapter extends CursorAdapter {
 
         priceDisplay.setText(displayPrice);
 
-        saleButton.clearFocus();
+        saleButton.clearFocus();    //removes focus from the button so that the list item becomes clickable
+        /*
+        Setup the saleButton to call the saleProduct() method
+         */
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,9 +93,16 @@ public class ProductCursorAdapter extends CursorAdapter {
     }
 
     private void saleProduct(Uri currentProductUri, int quantity, Context context) {
+        /*
+        Displays the out of stock message if quantity is already zero
+         */
         if (quantity == 0) {
             Toast.makeText(context, R.string.out_of_stock_msg, Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        /*
+        Requests the Content Provider to decrease the product's quantity by one in the database
+         */
+        else {
             quantity--;
             ContentValues values = new ContentValues();
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);

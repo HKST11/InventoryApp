@@ -20,6 +20,9 @@ public class ProductProvider extends ContentProvider {
     private static final int PRODUCTS_ID_URI_CODE = 101;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
+    /*
+    Adds the two types of expected URIs to the UriMatcher
+     */
     static {
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS, PRODUCTS_URI_CODE);
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS + "/#", PRODUCTS_ID_URI_CODE);
@@ -38,9 +41,12 @@ public class ProductProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                cursor = db.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortBy);
+                cursor = db.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortBy);   //returns the whole table
                 break;
             case PRODUCTS_ID_URI_CODE:
+                /*
+                returns the cursor with the selected items
+                 */
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortBy);
@@ -69,6 +75,9 @@ public class ProductProvider extends ContentProvider {
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
+        /*
+        Checks for null value in Product name and price fields
+         */
         String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
         if ((name == null) || (name.length() == 0)) {
             throw new IllegalArgumentException("Product requires a name");
@@ -82,13 +91,13 @@ public class ProductProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                returnedId = db.insert(ProductEntry.TABLE_NAME, null, contentValues);
+                returnedId = db.insert(ProductEntry.TABLE_NAME, null, contentValues);   //inserts the new product
                 break;
             default:
                 throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
         if (getContext() != null) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            getContext().getContentResolver().notifyChange(uri, null);  //Notify the Loader if any insertion occurs in the database
         }
         if (returnedId == -1) return null;
 
@@ -102,9 +111,12 @@ public class ProductProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                noOfRowsDeleted = db.delete(ProductEntry.TABLE_NAME, null, null);
+                noOfRowsDeleted = db.delete(ProductEntry.TABLE_NAME, null, null);   //deletes multiple rows
                 break;
             case PRODUCTS_ID_URI_CODE:
+                /*
+                deletes the row with the given item id
+                 */
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 noOfRowsDeleted = db.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
@@ -113,7 +125,7 @@ public class ProductProvider extends ContentProvider {
                 throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
         if (getContext() != null) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            getContext().getContentResolver().notifyChange(uri, null);  //Notify the Loader if any deletion occurs in the database
         }
         return noOfRowsDeleted;
     }
@@ -123,7 +135,9 @@ public class ProductProvider extends ContentProvider {
         if (contentValues.size() == 0) {
             return 0;
         }
-
+        /*
+        Checks for null value in Product name and price fields
+         */
         if (contentValues.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = contentValues.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
             if ((name == null) || (name.length() == 0)) {
@@ -142,9 +156,12 @@ public class ProductProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS_URI_CODE:
-                noOfRowsUpdated = db.update(ProductEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                noOfRowsUpdated = db.update(ProductEntry.TABLE_NAME, contentValues, selection, selectionArgs);  //updates multiple rows
                 break;
             case PRODUCTS_ID_URI_CODE:
+                /*
+                updates the row with the given item id
+                 */
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 noOfRowsUpdated = db.update(ProductEntry.TABLE_NAME, contentValues, selection, selectionArgs);
@@ -153,7 +170,7 @@ public class ProductProvider extends ContentProvider {
                 throw new IllegalArgumentException(R.string.unknown_uri + uri.toString());
         }
         if (getContext() != null) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            getContext().getContentResolver().notifyChange(uri, null);  //Notify the Loader if any update occurs in the database
         }
         return noOfRowsUpdated;
     }
