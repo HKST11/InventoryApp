@@ -9,21 +9,21 @@
     <h2>Screenshots</h2>  
     <div style="justify-content:space-around;">
       <div>
-    <img src="/photos/appOnScreen.jpg" width="200">
-      <img src="/photos/emptyMainScreen.jpeg" width="200">
-      <img src="/photos/mainScreen.jpeg" width="200">
+    <img src="/photos/appOnScreen.jpg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/emptyMainScreen.jpeg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/mainScreen.jpeg" width="200">&nbsp&nbsp&nbsp
       </div>
       <br>
       <div>
-    <img src="/photos/deleteAll.jpeg" width="200">
-      <img src="/photos/addMode.jpeg" width="200">
-      <img src="/photos/editMode.jpeg" width="200">
+    <img src="/photos/deleteAll.jpeg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/addMode.jpeg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/editMode.jpeg" width="200">&nbsp&nbsp&nbsp
       </div>
       <br>
       <div>
-    <img src="/photos/tryGallery.jpeg" width="200">
-      <img src="/photos/Gallery.jpeg" width="200">
-      <img src="/photos/orderGmail.jpeg" width="200">
+    <img src="/photos/tryGallery.jpeg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/Gallery.jpeg" width="200">&nbsp&nbsp&nbsp
+      <img src="/photos/orderGmail.jpeg" width="200">&nbsp&nbsp&nbsp
       </div>
       <br>
     </div>
